@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">keepass</string>
+    <string name="login">Login</string>
+    <string name="password">password</string>
+    <string name="email">email</string>
+    <string name="register">Register</string>
+    <string name="clicktologin">clicktologin</string>
+    <string name="clik_to_login">clik to login</string>
+    <string name="click_to_register">Click to register</string>
+    <string name="welcome_message">welcome message</string>
+    <string name="logout">Logout</string>
+    <string name="logo">logo</string>
+    <string name="url_du_site_web">URL du site web</string>
+    <string name="nom_d_utilisateur">nom d\'utilisateur</string>
+    <string name="creat_new_password">creat new password</string>
+</resources>

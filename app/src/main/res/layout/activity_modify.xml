@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_color"
+    tools:context=".Modify"
+    android:orientation="vertical"
+    android:gravity="center">
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="15sp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/white"
+
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            ></com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15sp"
+        android:layout_margin="15sp"
+
+
+        android:layout_marginRight="15sp"
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/site"
+
+
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/url_du_site_web"
+            ></com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15sp"
+        android:layout_margin="15sp"
+
+        android:layout_marginRight="15sp"
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+
+
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            ></com.google.android.material.textfield.TextInputEditText>
+
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15sp"
+
+        android:layout_margin="15sp"
+        android:layout_marginRight="15sp"
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nom_user"
+
+
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nom_d_utilisateur"
+            ></com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_creer"
+        android:text="@string/creat_new_password">
+
+    </Button>
+
+
+
+
+
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "168645971414",
+    "project_id": "keylog-35282",
+    "storage_bucket": "keylog-35282.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168645971414:android:40eda0ade45e75ce912877",
+        "android_client_info": {
+          "package_name": "com.example.keepass"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADepZs2rrh0u9drvZQZKUMCj9w5g2xDwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
