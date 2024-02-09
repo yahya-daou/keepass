@@ -11,12 +11,31 @@
 
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+
+        android:id="@+id/circularImageView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/prof"
+        app:shapeAppearanceOverlay="@style/circular" />
+
     <ImageView
         android:layout_marginTop="20dp"
         android:layout_marginLeft="155dp"
         android:id="@+id/logo_img"
         android:layout_width="100dp"
         android:layout_height="100dp"
+
         android:layout_marginBottom="90dp"
 
         android:contentDescription="@string/logo"
@@ -26,9 +45,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/keylog2"
         tools:ignore="ImageContrastCheck,ImageContrastCheck" />
+    <SearchView
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:queryHint="Rechercher" />
     <ListView
 
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="200dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:id="@+id/listView"
@@ -67,7 +95,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="Create"
+        android:text="+"
+        app:shapeAppearanceOverlay="@style/Button.White"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="16dp"

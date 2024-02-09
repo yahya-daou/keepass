@@ -1,101 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login"
-    android:background="@color/primary_color"
-    android:orientation="vertical"
-    android:gravity="center"
+    android:background="@color/primary_color">
 
-    >
-    <ImageView
-        android:id="@+id/logo_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="90dp"
-        android:contentDescription="@string/logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/keylog2"
-        />
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:text="@string/login"
-        android:textSize="20dp"
+        android:orientation="vertical"
+        android:gravity="center">
 
-        ></TextView>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_margin="15sp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/email"
-            android:inputType="textEmailAddress"
-            android:layout_width="match_parent"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/white"
+        <ImageView
+            android:id="@+id/logo_img"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/email"
-            ></com.google.android.material.textfield.TextInputEditText>
+            android:layout_marginBottom="90dp"
+            android:contentDescription="@string/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/keylog2" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15sp"
-
-
-        android:layout_marginRight="15sp"
-
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
-
-            android:textColor="@color/white"
-            android:inputType="textPassword"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password"
-            ></com.google.android.material.textfield.TextInputEditText>
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="@string/login"
+            android:textSize="20dp" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-    <ProgressBar
-        android:layout_marginTop="10sp"
-        android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15sp">
 
-        android:layout_height="wrap_content"
-        android:id="@+id/progressbar"
-        android:visibility="gone"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email"
+                android:inputType="textEmailAddress"
+                android:layout_width="match_parent"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:hint="@string/email" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        >
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15sp"
+            android:layout_marginRight="15sp">
 
-    </ProgressBar>
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
-        android:text="@string/login"
-        >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:textColor="@color/white"
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    </Button>
-    <TextView
-        android:id="@+id/register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="20sp"
-        android:text="@string/click_to_register">
+        <ProgressBar
+            android:layout_marginTop="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressbar"
+            android:visibility="gone" />
 
-    </TextView>
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:text="@string/login" />
 
-
-</LinearLayout>
+        <TextView
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="20sp"
+            android:text="@string/click_to_register" />
+    </LinearLayout>
+</ScrollView>

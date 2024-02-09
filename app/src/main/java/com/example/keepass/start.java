@@ -17,12 +17,11 @@ public class start extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Rediriger vers l'activité de connexion (login)
                 Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
-                finish(); // Fermer l'écran de lancement pour éviter qu'il n'apparaisse avec le bouton "Retour"
+                finish();
             }
-        }, 4000); // Délai en millisecondes (2 secondes dans cet exemple)
+        }, 4000);
 
 
     }

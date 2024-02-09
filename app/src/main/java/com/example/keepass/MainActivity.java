@@ -3,6 +3,9 @@ package com.example.keepass;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.widget.SearchView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -32,17 +35,25 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import javax.crypto.SecretKey;
 
 public class MainActivity extends AppCompatActivity {
     TextView text;
     Button logoutbtn;
+    SearchView searchView;
     FirebaseAuth auth;
     FirebaseFirestore db;
-    ListView listView ;
+    ListView listView ;  //circularImageView
     FirebaseUser user;
+
+    ImageView img;
+
     Button cre_button;
     private MainActivity activite;
     private void restartActivity() {
@@ -57,9 +68,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        searchView =findViewById(R.id.searchView);
         text=findViewById(R.id.textotedit);
         listView = findViewById(R.id.listView);
         logoutbtn=findViewById(R.id.logoutbtn);
+        img=findViewById(R.id.circularImageView);
         cre_button=findViewById(R.id.creer_password);
         db = FirebaseFirestore.getInstance();
 
@@ -74,6 +87,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(), Profile.class);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+
 
 
         cre_button.setOnClickListener(new View.OnClickListener() {
@@ -110,43 +134,54 @@ public class MainActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        // Vous pouvez vérifier l'existence du champ avant de le récupérer
-                        if (document.contains("nom-utilisateur")) {
+
+                        if (document.contains("application")) {
                             String mail = document.getString("curent_user").toString();
-                            String nomUtilisateur;
+                            String application;
                             if(mail != null && mail.equals(user.getEmail())){
-                                nomUtilisateur = document.getString("nom-utilisateur");
+                                application = document.getString("application");
 
 
-                                maListe.add(nomUtilisateur);
+                                maListe.add(application);
                             }
 
 
-                            // Assurez-vous que "nomUtilisateur" n'est pas nul avant de l'ajouter à la liste
+
 
                         }
                     }
 
-                    // Maintenant, "maListe" contient tous les noms d'utilisateurs
-                    // Vous pouvez faire ce que vous voulez avec cette liste ici
 
-                    // Créez un adaptateur ArrayAdapter
+
                     MyCustomAdapter adapter = new MyCustomAdapter(MainActivity.this, maListe);
 
 
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+
+                            adapter.getFilter().filter(newText);
+                            listView.setAdapter(adapter);
+                            return true;
+                        }
+                    });
 
 
-// Appliquez l'adaptateur à votre ListView
+
                     listView.setAdapter(adapter);
                 })
                 .addOnFailureListener(e -> {
-                    // Échec de la récupération des documents
-                    // Gérez les erreurs ici, par exemple, affichez un message d'erreur
+
                 });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Récupération de l'élément sélectionné
+
                 String selectedItem = (String) parent.getItemAtPosition(position);
 
 
@@ -156,49 +191,67 @@ public class MainActivity extends AppCompatActivity {
                         .addOnSuccessListener(queryDocumentSnapshots -> {
 
                             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                                // Vous pouvez vérifier l'existence du champ avant de le récupérer
-                                if (document.contains("nom-utilisateur")) {
+
+                                if (document.contains("application")) {
                                     String mail = document.getString("curent_user").toString();
                                     String pass ;
+
+                                    String application ;
                                     String URL;
                                     String nomUtilisateur;
-                                    nomUtilisateur = document.getString("nom-utilisateur");
+                                    application = document.getString("application");
                                     AlertDialog.Builder monpupup = new AlertDialog.Builder(MainActivity.this);
-                                    if(mail != null && mail.equals(user.getEmail()) && nomUtilisateur.equals(selectedItem)){
+                                    if(mail != null && mail.equals(user.getEmail()) && application.equals(selectedItem)){
 
 
                                         pass = document.getString("mot_de_passe");
+                                        String pass2 = "";
+                                        SecretKey loadedKey = CryptoUtils.loadKey(MainActivity.this, mail);
+                                        if (loadedKey != null) {
+
+
+                                            String decryptedData = CryptoUtils.decrypt(loadedKey, pass);
+                                            pass2 = decryptedData;
+                                        } else {
+
+                                            Toast.makeText(MainActivity.this, "Impossible de charger la clé pour décrypter le mot de passe", Toast.LENGTH_SHORT).show();
+                                        }
+
+
+
+                                        //
+                                        nomUtilisateur = document.getString("nom-utilisateur");
                                         URL = document.getString("url");
 
-                                        // Configuration de l'image (à remplacer par votre image)
+
                                         ImageView imageView = new ImageView(MainActivity.this);
-                                        // Configuration de l'image (à remplacer par votre image)
+
                                         imageView.setImageResource(R.drawable.key);
 
-                                        // Convertir 100dp en pixels
+
                                         int imageSizeInPixels = (int) TypedValue.applyDimension(
                                                 TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
 
-                                        // Définir la taille de l'ImageView
+
                                         imageView.setLayoutParams(new ViewGroup.LayoutParams(
                                                 imageSizeInPixels, imageSizeInPixels
                                         ));
-                                        // Création d'un layout pour contenir le texte et l'image
+
                                         LinearLayout layout = new LinearLayout(MainActivity.this);
                                         layout.setOrientation(LinearLayout.VERTICAL);
                                         layout.setGravity(Gravity.CENTER);
                                         layout.addView(imageView);
                                         TextView textView = new TextView(MainActivity.this);
-                                        // Configuration du texte
-                                        textView.setText("      url:     " + URL + "\n\n      password:     " + pass+"\n\n      nom d'utilisateur  :  " + nomUtilisateur+"\n\n      mail:    " + mail+"\n"+"\n");
 
-                                        // Ajout du TextView au layout
+                                        textView.setText("      url:     " + URL + "\n\n      password:     " + pass2+"\n\n      nom application  :  " + application+"\n\n      nom d'utilisateur  :  " + nomUtilisateur+"\n\n      mail:    " + mail+"\n"+"\n");
+
+
                                         textView.setTextIsSelectable(true);
                                         layout.addView(textView);
 
 
 
-                                        // Ajout du layout à la boîte de dialogue
+
 
                                         monpupup.setView(layout);
                                         Button modifierButton = new Button(MainActivity.this);
@@ -207,67 +260,60 @@ public class MainActivity extends AppCompatActivity {
                                         layout.addView(modifierButton);
 
 
-                                        // Set the text for the button
+
                                         Button delete = new Button(MainActivity.this);
                                         delete.setText("delete");
                                         delete.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
-                                        layout.addView(delete);// Set the text for the button
+                                        layout.addView(delete);
                                         delete.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                // Handle the "Delete" button click action here
-                                                // You can implement the logic to delete the selected item or perform other actions
 
-
-                                                // Get a reference to the Firestore collection
 
                                                 CollectionReference lesPassCollection = db.collection("les_pass");
 
-// Specify the "nom-utilisateur" value of the document you want to delete
-                                                String nomUtilisateurToDelete = nomUtilisateur;
 
-// Create a query to find the document with the specified "nom-utilisateur"
+                                                String nomUtilisateurToDelete = application;
+
+
                                                 Query query = lesPassCollection
-                                                .whereEqualTo("nom-utilisateur", nomUtilisateurToDelete)
+                                                .whereEqualTo("application", nomUtilisateurToDelete)
                                                 .whereEqualTo("curent_user", user.getEmail());
 
                                                 query.get().addOnSuccessListener(queryDocumentSnapshots -> {
-                                                    // Check if any documents match the query
+
                                                     if (!queryDocumentSnapshots.isEmpty()) {
-                                                        // Get the reference to the first matching document
+
                                                         DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
 
-                                                        // Delete the document
                                                         documentSnapshot.getReference().delete().addOnSuccessListener(aVoid -> {
                                                             restartActivity();
-                                                            // Document successfully deleted
+
 
                                                         }).addOnFailureListener(e -> {
-                                                            // Handle errors here
+
 
                                                         });
                                                     } else {
-                                                        // Document with the specified "nom-utilisateur" value not found
 
                                                     }
                                                 }).addOnFailureListener(e -> {
-                                                    // Handle errors here
+
 
                                                 });
 
 
 
-                                                Toast.makeText(MainActivity.this, "Delete button clicked", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(MainActivity.this, "Password deleted", Toast.LENGTH_SHORT).show();
                                             }
 
                                         });
                                         modifierButton.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                // Handle the "Delete" button click action here
-                                                // You can implement the logic to delete the selected item or perform other actions
+
                                                 Intent intent= new Intent(getApplicationContext(), Modify.class);
-                                                intent.putExtra("nomUtilisateur", nomUtilisateur);
+                                                intent.putExtra("application", application);
                                                 startActivity(intent);
                                                 finish();
 
@@ -281,11 +327,11 @@ public class MainActivity extends AppCompatActivity {
                                         monpupup.create().getWindow().getDecorView().setPadding(
                                                 marginInPixels, marginInPixels, marginInPixels, marginInPixels);
                                         WindowManager.LayoutParams params = monpupup.create().getWindow().getAttributes();
-                                        params.y = 50; // Modifier la valeur selon vos besoins
+                                        params.y = 50;
                                         monpupup.create().getWindow().setAttributes(params);
 
 
-                                        monpupup.setTitle("the entry for user   "+nomUtilisateur);
+                                        monpupup.setTitle("the entry for application   "+application);
                                         monpupup.show();
 
 
@@ -296,17 +342,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                                    // Assurez-vous que "nomUtilisateur" n'est pas nul avant de l'ajouter à la liste
-
                                 }
 
                             }
 
 
-                            // Maintenant, "maListe" contient tous les noms d'utilisateurs
-                            // Vous pouvez faire ce que vous voulez avec cette liste ici
-
-                            // Créez un adaptateur ArrayAdapter
 
                         });
 
@@ -319,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                // Affichage du toast personnalisé
+
 
             }
         });
